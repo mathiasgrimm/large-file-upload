@@ -11,7 +11,7 @@ class FileUploadTest extends Component
 {
     use WithFileUploads;
 
-    #[Validate('file|max:2048576')]
+//    #[Validate('max:2048576')]
     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile */
     public $theFile;
     public $downloadUrl;
