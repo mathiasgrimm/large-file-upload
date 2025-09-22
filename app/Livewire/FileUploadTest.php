@@ -24,6 +24,8 @@ class FileUploadTest extends Component
     public function uploadFile()
     {
         $path = $this->theFile->store(path: 'large-files');
+        $this->theFile = null;
+
         $this->downloadUrl = Storage::temporaryUrl($path, now()->addMinutes(5));
     }
 }
