@@ -4,10 +4,18 @@
         wire:model="theFile"
     />
     <br>
-    <a wire:click="uploadFile">Upload</a>
+
+    <div>
+        @if ($theFile)
+            <a wire:click="uploadFile">Upload</a>
+        @endif
+    </div>
 
     <br>
-    @if ($downloadUrl)
-        <a href="{{ $downloadUrl }}">Download</a>
-    @endif
+
+    <div>
+        @if ($downloadUrl)
+            <a href="{{ $downloadUrl }}">Download</a>
+        @endif
+    </div>
 </div>
