@@ -11,7 +11,7 @@ class FileUploadTest extends Component
 {
     use WithFileUploads;
 
-    #[Validate('max:2048576')]
+    #[Validate('required')]
     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile */
     public $theFile;
     public $downloadUrl;
@@ -23,6 +23,8 @@ class FileUploadTest extends Component
 
     public function uploadFile()
     {
+        $data = $this->validate();
+
         $path = $this->theFile->store(path: 'large-files');
         $this->theFile = null;
 
