@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -10,8 +11,10 @@ class FileUploadTest extends Component
 {
     use WithFileUploads;
 
-    #[Validate('file|max:2048576')] // 1MB Max
+    #[Validate('file|max:2048576')]
+    /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile */
     public $theFile;
+    public $downloadUrl;
 
     public function render()
     {
@@ -20,6 +23,7 @@ class FileUploadTest extends Component
 
     public function uploadFile()
     {
-        dd($this->theFile);
+        $path = $this->theFile->store(path: 'large-files');
+        $this->downloadUrl = Storage::temporaryUrl($path, now()->addMinutes(5));
     }
 }
