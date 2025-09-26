@@ -15,7 +15,9 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/file-upload-test', FileUploadTest::class);
+
+    Route::get('/file-upload-test', FileUploadTest::class)->name('file-upload-test');
+
     Route::redirect('settings', 'settings/profile');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');

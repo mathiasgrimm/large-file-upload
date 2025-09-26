@@ -24,10 +24,14 @@ class FileUploadTest extends Component
     public function uploadFile()
     {
         $this->validate();
-
-        //$path = $this->theFile->store(path: 'large-files');
         $targetPath = 'large-files/'.$this->theFile->getClientOriginalName();
+
+        // Instead of using
+        // $targetPath = $this->theFile->store(path: 'large-files');
+
+        // We have to use
         Storage::move($this->theFile->getRealPath(), $targetPath);
+
         $this->theFile = null;
 
         $this->downloadUrl = Storage::temporaryUrl($targetPath, now()->addMinutes(5));
