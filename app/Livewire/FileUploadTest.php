@@ -24,13 +24,17 @@ class FileUploadTest extends Component
     public function uploadFile()
     {
         $this->validate();
-        $targetPath = 'large-files/'.$this->theFile->getClientOriginalName();
+        $targetPath = 'large-files/-'.uuid()->toString().'-'.$this->theFile->getClientOriginalName();
+
+        logger("moving {$this->theFile->getRealPath()} to {$targetPath}");
 
         // Instead of using
         // $targetPath = $this->theFile->store(path: 'large-files');
 
         // We have to use
         Storage::move($this->theFile->getRealPath(), $targetPath);
+
+        logger("moved {$this->theFile->getRealPath()} to {$targetPath}");
 
         $this->theFile = null;
 
