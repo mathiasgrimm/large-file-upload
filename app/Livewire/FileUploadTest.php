@@ -32,12 +32,13 @@ class FileUploadTest extends Component
         // $targetPath = $this->theFile->store(path: 'large-files');
 
         // We have to use
-        Storage::move($this->theFile->getRealPath(), $targetPath);
+        $realPath = $this->theFile->getRealPath();
+        Storage::move($realPath, $targetPath);
 
-        logger("moved {$this->theFile->getRealPath()} to {$targetPath}", ['filesystem'=> config('filesystems')]);
+        logger("moved {$realPath} to {$targetPath}");
 
-        $this->theFile = null;
-
-        $this->downloadUrl = Storage::temporaryUrl($targetPath, now()->addMinutes(5));
+//        $this->theFile = null;
+//
+//        $this->downloadUrl = Storage::temporaryUrl($targetPath, now()->addMinutes(5));
     }
 }
