@@ -18,6 +18,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/file-upload-test', FileUploadTest::class)->name('file-upload-test');
 
+    Route::get('/file-upload-test-quick-s3', function () {
+        $t0 = microtime(true);
+        Storage::disk('s3')->move('livewire-tmp/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin', 'large-files/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin');
+
+        return microtime(true)-$t0;
+    });
+
+    Route::get('/file-upload-test-quick-default', function () {
+        $t0 = microtime(true);
+        Storage::move('livewire-tmp/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin', 'large-files/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin');
+
+        return microtime(true)-$t0;
+    });
+
     Route::redirect('settings', 'settings/profile');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
