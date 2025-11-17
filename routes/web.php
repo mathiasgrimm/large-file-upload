@@ -20,14 +20,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/file-upload-test-quick-s3', function () {
         $t0 = microtime(true);
-        Storage::disk('s3')->move('livewire-tmp/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin', 'large-files/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin');
+        Storage::disk('s3')->copy('livewire-tmp/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin', 'large-files/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin');
 
         return microtime(true)-$t0;
     });
 
     Route::get('/file-upload-test-quick-default', function () {
         $t0 = microtime(true);
-        Storage::move('livewire-tmp/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin', 'large-files/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin');
+        Storage::copy('livewire-tmp/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin', 'large-files/NWghdVdwK3Up47scW0AstVcN3TDLvo-metaZmlsZW5hbWUyR0IuYmlu-.bin');
 
         return microtime(true)-$t0;
     });
