@@ -39,6 +39,6 @@ class FileUploadTest extends Component
 
 //        $this->theFile = null;
 //
-//        $this->downloadUrl = Storage::temporaryUrl($targetPath, now()->addMinutes(5));
+        $this->downloadUrl = Storage::temporaryUrl($targetPath, now()->addMinutes(5));
     }
 }
