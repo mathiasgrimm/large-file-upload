@@ -31,6 +31,8 @@ class TestS3Operations extends Command
 
     private array $diskConfig;
 
+    private int $fileSizeInMb;
+
     private AwsS3V3Adapter $disk;
 
     /**
@@ -109,6 +111,7 @@ class TestS3Operations extends Command
                                 continue;
                             }
 
+                            // attempts...
                             for ($i = 0; $i < 2; $i++) {
                                 $config = config("filesystems.disks.{$diskName}");
                                 unset($config['options']);
@@ -128,10 +131,11 @@ class TestS3Operations extends Command
                                 $this->localPath = "dummy-files/dummy-{$fileSizeInMb}MB.bin";
                                 $this->remotePath = "livewire-tmp/{$fileSizeInMb}MB.bin";
                                 $this->copyPath = "large-files/{$fileSizeInMb}MB-".str()->uuid().'.bin';
+                                $this->fileSizeInMb = $fileSizeInMb;
                                 $this->disk = Storage::build($this->diskConfig);
 
                                 if ($operation == 'put') {
-                                    $this->ensureLocalFileExists($fileSizeInMb);
+                                    $this->ensureLocalFileExists();
 
                                     if ($this->disk->fileExists($this->remotePath)) {
                                         $this->disk->delete($this->remotePath);
@@ -142,9 +146,9 @@ class TestS3Operations extends Command
                                     $this->disk->put($this->remotePath, fopen($this->localPath, 'r'));
                                     $t1 = microtime(true);
                                 } elseif ($operation == 'copy') {
-                                    $this->ensureRemoteFileExists($fileSizeInMb);
+                                    $this->ensureRemoteFileExists();
 
-                                    // does not depend on my internet connection
+                                    // Does not depend on my internet connection
                                     $t0 = microtime(true);
                                     $this->disk->copy($this->remotePath, $this->copyPath);
                                     $t1 = microtime(true);
@@ -168,6 +172,7 @@ class TestS3Operations extends Command
 
                                 if ($i == 1) {
                                     file_put_contents('/tmp/result.txt', PHP_EOL, FILE_APPEND);
+                                    $this->info('');
                                 }
                             }
                         }
@@ -179,23 +184,23 @@ class TestS3Operations extends Command
         dd($results);
     }
 
-    private function ensureLocalFileExists($fileSizeInMb)
+    private function ensureLocalFileExists()
     {
         if (file_exists($this->localPath)) {
             return;
         }
 
-        $command = "dd if=/dev/urandom of={$this->localPath} bs=1M count={$fileSizeInMb}";
+        $command = "dd if=/dev/urandom of={$this->localPath} bs=1M count={$this->fileSizeInMb}";
         exec($command);
     }
 
-    private function ensureRemoteFileExists($fileSizeInMb)
+    private function ensureRemoteFileExists()
     {
-        $this->ensureLocalFileExists($fileSizeInMb);
-
         if ($this->disk->fileExists($this->remotePath)) {
             return;
         }
+
+        $this->ensureLocalFileExists();
 
         $this->disk->put($this->remotePath, fopen($this->localPath, 'r'));
     }
