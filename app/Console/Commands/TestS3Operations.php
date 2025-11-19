@@ -90,6 +90,10 @@ class TestS3Operations extends Command
                 foreach ($operations as $operation) {
                     foreach ($mupThresholds as $mupThreshold) {
                         foreach ($concurrencies as $concurrency) {
+
+                            // --------------------------------------------------------
+                            // skipping operations when they match the defaults
+                            // --------------------------------------------------------
                             if ($operation == 'put' && $mupThreshold == (16 * $mb)) {
                                 continue;
                             }
@@ -105,6 +109,7 @@ class TestS3Operations extends Command
                             if ($operation == 'copy' && $concurrency == 5) {
                                 continue;
                             }
+                            // --------------------------------------------------------
 
                             // It wont use concurrency if the file is less than the threshold
                             if ((($fileSizeInMb * $mb) <= $mupThreshold) && $concurrency > 0) {
