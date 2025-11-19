@@ -92,7 +92,7 @@ class TestS3Operations extends Command
                         foreach ($concurrencies as $concurrency) {
 
                             // --------------------------------------------------------
-                            // skipping operations when they match the defaults
+                            // skipping operations when they match the defaults (null)
                             // --------------------------------------------------------
                             if ($operation == 'put' && $mupThreshold == (16 * $mb)) {
                                 continue;
