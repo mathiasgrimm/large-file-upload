@@ -191,6 +191,8 @@ class TestS3Operations extends Command
 
     private function ensureRemoteFileExists($fileSizeInMb)
     {
+        $this->ensureLocalFileExists($fileSizeInMb);
+
         if ($this->disk->fileExists($this->remotePath)) {
             return;
         }
